@@ -9,7 +9,7 @@
   <body>
 
     <div id="app">
-  <h1>Bitcoin Price Index</h1>
+  <h1>Film starwars</h1>
 
   <section v-if="errored">
     <p>Nous sommes désolés, nous ne sommes pas en mesure de récupérer ces informations pour le moment. Veuillez réessayer ultérieurement.</p>
@@ -23,10 +23,9 @@
       v-for="currency in info"
       class="currency"
     >
-      {{ currency.title }}:
-      <span class="lighten">
-        <span v-html="currency.symbol"></span>{{ currency.opening_crawl }}
-      </span>
+
+      <span class="title">{{ results.title }}</span><br />
+       
     </div>
 
   </section>
@@ -37,7 +36,7 @@
   <script src="https://unpkg.com/axios"></script>
   <script>
 
-  new Vue({
+  Vue.createApp({
   el: '#app',
   data () {
     return {
