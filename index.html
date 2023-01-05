@@ -6,20 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projet</title>
   </head>
+  
   <body>
 
     <div id="demo">
   <h1>Film Star Wars</h1>
+  <template v-for="branch in branches">
+                <input
+                    type="radio"
+                    :id="branch"
+                    :value="branch"
+                    name="branch"
+                    v-model="currentBranch"
+                />
+                <label :for="branch">{{ branch }}</label>
+  </template>
 
-  <div
-      v-else
-      v-for="film in films"
-      class="currency"
-    >
+   <ul>
+                <li>
+                    <a> Titre :{{ currentFilm.title }}</a>
+                    
+                </li>
+                <br/>
 
-      <span class="title">{{ film.title }}</span>
-       
-  </div>
+                 <li>
+                    <a> Description :{{ currentFilm.opening_crawl }}</a>
+                    
+                </li>
+                <br/>
+
+                 <li>
+                    <a> Director :{{ currentFilm.director }}</a>
+                    
+                </li>
+                <br/>
+
+                 <li>
+                    <a> Producer :{{ currentFilm.producer }}</a>
+                    
+                </li>
+                <br/>
+
+                 <li>
+                    <a> Making date :{{ currentFilm.release_date }}</a>
+                    
+                </li>
+
+            </ul>
 
 
     </body>
@@ -33,13 +66,19 @@
   Vue.createApp({
   data () {
     return {
+      branches: ["film1","film2","film3","film4","film5"],
+      currentBranch: "film1",
       films:null,
+      currentFilm:null,
     };
   },
   created:function(){
     this.fetchFilm();
   },
-
+  
+  watch: {
+    currentBranch: "actua",
+  },
   methods:{
   
   fetchFilm: async function () {
@@ -47,11 +86,17 @@
       const response = await axios.get(apifilm)
       console.log(response.data)
       this.films = response.data.results
+      this.currentFilm = this.films[0];
 
     }
     catch (error){ 
       console.log(error);
     }
+  },
+
+  actua : function() {
+     this.currentFilm = this.films[this.currentBranch[4]]
+
   },
 },
   
