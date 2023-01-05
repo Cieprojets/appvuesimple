@@ -8,61 +8,54 @@
   </head>
   <body>
 
-    <div id="app">
-  <h1>Film starwars</h1>
+    <div id="demo">
+  <h1>Film Star Wars</h1>
 
-  <section v-if="errored">
-    <p>Nous sommes désolés, nous ne sommes pas en mesure de récupérer ces informations pour le moment. Veuillez réessayer ultérieurement.</p>
-  </section>
-
-  <section v-else>
-    <div v-if="loading">Chargement...</div>
-
-    <div
+  <div
       v-else
-      v-for="currency in info"
+      v-for="film in films"
       class="currency"
     >
 
-      <span class="title">{{ results.title }}</span><br />
+      <span class="title">{{ film.title }}</span>
        
-    </div>
-
-  </section>
-</div>
+  </div>
 
 
     </body>
-  <script src="https://unpkg.com/axios"></script>
+ 
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@3"></script>
   <script>
 
+  const apifilm = "https://swapi.dev/api/films/?format=json";
+
   Vue.createApp({
-  el: '#app',
   data () {
     return {
-      info:[],
-      loading: true,
-      errored: false
+      films:null,
+    };
+  },
+  created:function(){
+    this.fetchFilm();
+  },
+
+  methods:{
+  
+  fetchFilm: async function () {
+    try {
+      const response = await axios.get(apifilm)
+      console.log(response.data)
+      this.films = response.data.results
+
+    }
+    catch (error){ 
+      console.log(error);
     }
   },
-  filters: {
-    currencydecimal (value) {
-      return value.toFixed(2)
-    }
-  },
-  mounted () {
-    axios
-      .get('https://swapi.dev/api/films/?format=json')
-      .then(response => {
-        this.info = response.data.results
-      })
-      .catch(error => {
-        console.log(error)
-        this.errored = true
-      })
-      .finally(() => this.loading = false)
-  }
-})
+},
+  
+}).mount("#demo");
 
   </script>
 </html>
